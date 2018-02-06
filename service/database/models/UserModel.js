@@ -2,10 +2,13 @@
 
 const mongoose = require('mongoose');
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 const Schema = mongoose.Schema;
 
 const {vehiclesCollectionName} = require('./VehicleModel');
 const {transactionsCollectionName} = require('./TransactionModel');
+const {tokenSecret} = require('../../secrets');
 
 const UserModel = new Schema({
     username: {
@@ -56,6 +59,24 @@ const UserModel = new Schema({
         }
     }
 });
+
+UserModel.methods.toJSON = function () {
+    const userObject = this.toObject();
+    return _.omit(userObject, ['password', 'tokens']);
+};
+
+UserModel.methods.generateAuthToken = function () {
+    const user = this;
+    const access = 'auth';
+    const token = jwt.sign({_id: user._id.toHexString(), access}, tokenSecret).toString();
+
+    user.tokens.push({access, token});
+
+    return user.save()
+        .then(() => {
+            return token;
+        });
+};
 
 const usersCollectionName = 'Users';
 module.exports = {
