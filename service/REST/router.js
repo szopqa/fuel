@@ -1,3 +1,4 @@
+'use strict';
 const usersController = require('./controllers/usersController');
 const vehiclesController = require('./controllers/vehiclesController');
 const transactionsController = require('./controllers/transactionsController');

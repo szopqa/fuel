@@ -1,8 +1,12 @@
+'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const logger = require('./logger');
+const db_configurator = require('./database/db_configurator');
 const {db} = require('./secrets');
+const {port} = require('./config');
 
 const app = express();
 
@@ -15,21 +19,20 @@ app.use(function (req, res, next) {
     next();
 });
 
-/*Connecting to database*/
-mongoose.Promise = global.Promise;
-mongoose.connect(
-    'mongodb://'+db.username+':'+db.password+'@ds125368.mlab.com:25368/fuel');
-const database = mongoose.connection;
-database.once('open',function () {
-    console.log('Connected to ' + db.databaseName + ' database');
+app.use(function (req, res, next) {
+    logger.info('HTTP Request', {
+        method: req.method,
+        url: req.originalUrl,
+        body: req.body,
+        timestamp: Date.now()
+    });
+    next();
 });
-database.on('error',function (err) {
-    console.log(err);
-});
+
+db_configurator(mongoose);
 
 require('./REST/router') (app);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT,function () {
-    console.log('Server started at port ' + PORT);
+app.listen(port,function () {
+    logger.info(`Server started on port ${port}`);
 });

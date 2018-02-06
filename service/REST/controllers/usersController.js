@@ -1,3 +1,4 @@
+'use strict';
 module.exports = (() => {
     const addNewUser = (req, res) => {
         throw new Error('Not implemented exception!');

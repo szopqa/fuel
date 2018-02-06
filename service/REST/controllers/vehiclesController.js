@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = (() => {
     const addNewVehicle = (req, res) => {
         throw new Error('Not implemented exception!');
