@@ -1,0 +1,4 @@
+node_modules/
+service/secrets.js
+service/logs/
+.idea/
