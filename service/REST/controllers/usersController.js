@@ -5,6 +5,7 @@ const {UserModel} = require('../../database/models/UserModel');
 const logger = require('../../logger');
 
 module.exports = (() => {
+
     const addNewUser = (req, res) => {
         const body = _.pick(req.body,['username', 'password', 'emailAddress']);
         const user = new UserModel(body);
@@ -22,6 +23,22 @@ module.exports = (() => {
             });
     };
 
+    const loginUser = (req, res) => {
+        const credentials = _.pick(req.body,['username', 'password', 'emailAddress']);
+        UserModel
+            .findByCredentials(credentials)
+            .then((user) => {
+                return user.generateAuthToken()
+                    .then((token) => {
+                        res.header('x-auth', token).send(user);
+                    });
+            })
+            .catch((e) => {
+                res.status(400).send(e);
+            })
+
+    };
+
     const getLoggedUser = (req, res) => {
         const loggedUser = req.user;
         res.send(loggedUser);
@@ -37,8 +54,9 @@ module.exports = (() => {
 
     return {
         addNewUser,
+        loginUser,
+        getLoggedUser,
         getUserById,
-        deleteUser,
-        getLoggedUser
+        deleteUser
     }
 })();

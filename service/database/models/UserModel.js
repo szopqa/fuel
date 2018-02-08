@@ -96,6 +96,26 @@ UserModel.statics.findByToken = function (token) {
     });
 };
 
+UserModel.statics.findByCredentials = function (userCredentials) {
+    const {password, emailAddress} = userCredentials;
+    const User = this;
+
+    return User.findOne({emailAddress})
+        .then((user) => {
+            if (! user) return Promise.reject();
+
+            return new Promise((resolve, reject) => {
+                bcrypt.compare(password, user.password, (err, res) => {
+                    if (res) {
+                        resolve (user);
+                    } else {
+                        reject ();
+                    }
+                })
+            })
+        })
+};
+
 UserModel.pre('save', function (next) {
    let user = this;
    if (user.isModified('password')) {
