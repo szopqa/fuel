@@ -79,6 +79,16 @@ UserModel.methods.generateAuthToken = function () {
         });
 };
 
+UserModel.methods.removeToken = function (token) {
+  const user = this;
+
+  return user.update({
+      $pull: {
+          tokens:{token}
+      }
+  });
+};
+
 UserModel.statics.findByToken = function (token) {
     const User = this;
 

@@ -39,6 +39,12 @@ module.exports = (() => {
 
     };
 
+    const logoutUser = (req, res) => {
+        req.user.removeToken(req.token)
+            .then(() => res.status(200).send())
+            .catch((e) => res.status(400).send())
+    };
+
     const getLoggedUser = (req, res) => {
         const loggedUser = req.user;
         res.send(loggedUser);
@@ -55,6 +61,7 @@ module.exports = (() => {
     return {
         addNewUser,
         loginUser,
+        logoutUser,
         getLoggedUser,
         getUserById,
         deleteUser
