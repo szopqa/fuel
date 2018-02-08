@@ -22,6 +22,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+
 require('./database/db_configurator') (mongoose);
 require('./REST/router') (app);
 

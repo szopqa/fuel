@@ -2,6 +2,7 @@
 const _ = require('lodash');
 
 const {UserModel} = require('../../database/models/UserModel');
+const logger = require('../../logger');
 
 module.exports = (() => {
     const addNewUser = (req, res) => {
@@ -16,8 +17,14 @@ module.exports = (() => {
                 res.header('x-auth', token).send(user);
             })
             .catch((e) => {
+                logger.log('error',e);
                 res.status(400).send(e);
             });
+    };
+
+    const getLoggedUser = (req, res) => {
+        const loggedUser = req.user;
+        res.send(loggedUser);
     };
 
     const getUserById = (req, res) => {
@@ -31,6 +38,7 @@ module.exports = (() => {
     return {
         addNewUser,
         getUserById,
-        deleteUser
+        deleteUser,
+        getLoggedUser
     }
 })();
