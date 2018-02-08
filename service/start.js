@@ -30,3 +30,5 @@ require('./REST/router') (app);
 app.listen(port, function () {
     logger.info(`Server started on port ${port}`);
 });
+
+module.exports = {app};
