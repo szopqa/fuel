@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 const {vehiclesCollectionName} = require('./VehicleModel');
@@ -94,6 +95,18 @@ UserModel.statics.findByToken = function (token) {
         'tokens.access' : 'auth'
     });
 };
+
+UserModel.pre('save', function (next) {
+   let user = this;
+   if (user.isModified('password')) {
+       bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(user.password, salt, (err, hashedPass) => {
+                user.password = hashedPass;
+                next();
+            })
+       });
+   } else { next(); }
+});
 
 const usersCollectionName = 'Users';
 module.exports = {
