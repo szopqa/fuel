@@ -5,6 +5,7 @@ const _ = require('lodash');
 const {app} = require('../../start');
 const payloads = require('../helpers/payloads');
 const {UserModel} = require('../../database/models/UserModel');
+const globals = require('../helpers/globals');
 
 beforeEach((done) => {
    UserModel.remove({})

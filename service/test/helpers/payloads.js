@@ -6,6 +6,14 @@ const sampleUserPayload = {
     emailAddress: `sample@example.com`
 };
 
+const sampleVehiclePayload = (owner) => {
+    return {
+        owner: owner,
+        brand: 'sample vehicle brand',
+        averageCombustion: 6.7
+    };
+};
+
 const generateNonExistingUser = () => {
     return Object.assign(sampleUserPayload, {
         username: generateRandomStringOfLength(7),
@@ -15,6 +23,7 @@ const generateNonExistingUser = () => {
 };
 
 module.exports = {
-    sampleUserPayload: sampleUserPayload,
+    sampleUserPayload,
+    sampleVehiclePayload,
     generateNonExistingUser
 };

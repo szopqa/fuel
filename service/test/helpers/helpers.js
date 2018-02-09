@@ -9,7 +9,6 @@ module.exports = (() => {
         return randomString;
     };
 
-
     return {
         generateRandomStringOfLength
     }
