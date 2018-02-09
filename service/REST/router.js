@@ -14,7 +14,7 @@ module.exports = (app) => {
     app.delete('/users/:id', authenticate, usersController.deleteUser);
 
     app.post('/vehicles', authenticate, vehiclesController.addNewVehicle);
-    app.get('/vehicles/:id', authenticate, vehiclesController.getVehicleById);
+    app.get('/vehicles', authenticate, vehiclesController.getUserVehicles);
     app.delete('/vehicles/:id', authenticate, vehiclesController.deleteVehicle);
 
     app.post('/users/:id/transactions', authenticate, transactionsController.addNewTransaction);
