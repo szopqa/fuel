@@ -23,6 +23,7 @@ module.exports = (() => {
             });
     };
 
+    // TODO : Return not found when user doesn't exist
     const loginUser = (req, res) => {
         const credentials = _.pick(req.body,['username', 'password', 'emailAddress']);
         UserModel
