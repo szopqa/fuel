@@ -9,6 +9,13 @@ module.exports = {
             contentType: 'application/json'
         })
     },
+    get loggedUserResource () {
+        return commonsFactory({
+            host: app,
+            path: '/users/me',
+            contentType: 'application/json'
+        })
+    },
     get vehiclesResource () {
         return commonsFactory({
             host: app,
