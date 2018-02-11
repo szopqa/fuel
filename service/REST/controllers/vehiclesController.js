@@ -2,9 +2,11 @@
 
 const {VehicleModel} = require('../../database/models/VehicleModel');
 const {UserModel} = require('../../database/models/UserModel');
+const logger = require('../../logger');
 
 module.exports = (() => {
-    const addNewVehicle = (req, res) => {
+    const addNewVehicle = async (req, res) => {
+
         const vehicleBody = req.body;
         const vehicle = new VehicleModel({
             owner: req.user,
@@ -14,38 +16,34 @@ module.exports = (() => {
             description: vehicleBody.description
         });
 
-        // TODO: Refactor
-        vehicle.save()
-            .then((vehicle) => {
-                UserModel.findOneAndUpdate({_id:vehicle.owner}, {
-                    $push: {
-                        'userDomainInfo.vehicles': vehicle
-                    }
-                }, (err, owner) => {
-                    if (err) return res.status(400).send(err);
-                    if (! owner) return res.status(404).send(`User not found!`);
+        let savedVehicle;
+        try{
+            savedVehicle = await vehicle.save();
+        } catch (e) {
+            logger.log('error', 'Failed to save vehicle to database', {e});
+            res.status(400).send(e);
+        }
 
-                    res.json({
-                        owner: owner,
-                        addedVehicleId: vehicle._id
-                    });
-                })
-            })
-            .catch((e) => {
-                res.status(400).send(e);
-            })
+        const updatedUser = await UserModel.findOneAndUpdate(
+            {_id: savedVehicle.owner},
+            {$push: {'userDomainInfo.vehicles': savedVehicle}},
+            {new: true} );
+
+        if (! updatedUser) {return res.status(404).send(`User not found!`)}
+
+        res.json({
+            owner: updatedUser,
+            addedVehicleId: savedVehicle._id
+        });
     };
 
-    const getUserVehicles = (req, res) => {
-        VehicleModel.find({
+    const getUserVehicles = async (req, res) => {
+        const userVehicles = await VehicleModel.find({
             owner: req.user._id
-        })
-        .then((vehicles) => {
-            res.send(vehicles)
-        })
-        .catch((e) => {
-            res.status(400).send(e);
-        })
+        });
+        if(!userVehicles) {res.status(400).send()}
+
+        res.send(userVehicles)
     };
 
     const deleteVehicle = (req, res) => {
