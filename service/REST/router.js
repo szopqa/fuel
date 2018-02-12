@@ -17,7 +17,8 @@ module.exports = (app) => {
     app.get('/vehicles', authenticate, vehiclesController.getUserVehicles);
     app.delete('/vehicles/:id', authenticate, vehiclesController.deleteVehicle);
 
-    app.post('/users/:id/transactions', authenticate, transactionsController.addNewTransaction);
-    app.get('/users/:id/transactions/:id', authenticate, transactionsController.getTransactionById);
-    app.delete('/users/:id/transactions/:id', authenticate,transactionsController.deleteTransaction);
+    app.post('/user/transactions', authenticate, transactionsController.addNewTransaction);
+    app.get('/user/transactions', authenticate, transactionsController.getUserTransactions);
+    app.get('/user/transactions/:id', authenticate, transactionsController.getTransactionById);
+    app.delete('/user/transactions/:id', authenticate,transactionsController.deleteTransaction);
 };

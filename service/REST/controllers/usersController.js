@@ -7,8 +7,14 @@ const logger = require('../../logger');
 module.exports = (() => {
 
     const addNewUser = (req, res) => {
-        const body = _.pick(req.body,['username', 'password', 'emailAddress']);
-        const user = new UserModel(body);
+        const userBody = req.body;
+
+        const user = new UserModel({
+            username: userBody.username,
+            password: userBody.password,
+            emailAddress: userBody.emailAddress,
+            avatar: userBody.avatar,
+        });
 
         user.save()
             .then(() => {
@@ -46,9 +52,18 @@ module.exports = (() => {
             .catch((e) => res.status(400).send())
     };
 
-    const getLoggedUser = (req, res) => {
-        const loggedUser = req.user;
-        res.send(loggedUser);
+    const getLoggedUser = async (req, res) => {
+        let userInfo;
+        try {
+            userInfo = await UserModel
+                .findById(req.user)
+                .populate('userDomainInfo.vehicles')
+                .populate('userDomainInfo.historyOfTransactions')
+                .exec();
+        } catch (e) {
+            res.status(400).send(e);
+        }
+        return userInfo ? res.send(userInfo) : res.status(404).send('User not found');
     };
 
     const getUserById = (req, res) => {
