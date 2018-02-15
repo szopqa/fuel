@@ -1,0 +1,5 @@
+node_modules/
+service/src/secrets.js
+service/src/logs/logs.log
+.idea/
+sandbox/

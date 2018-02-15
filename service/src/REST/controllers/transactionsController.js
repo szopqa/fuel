@@ -5,6 +5,7 @@ const _ = require('lodash');
 const {UserModel} = require('../../database/models/UserModel');
 const {TransactionModel} = require('../../database/models/TransactionModel');
 const {addCreatedResourceToArrayInUserModel} = require('./utils/utils');
+const calculator = require('../activities/calculator');
 
 module.exports = (() => {
 
@@ -13,7 +14,7 @@ module.exports = (() => {
     };
 
 
-
+    //TODO : Fix bug with transactionDate - for each transaction date is the same
     const addNewTransaction = async (req, res) => {
         const transaction = new TransactionModel(Object.assign({owner: req.user._id}, req.body));
 
