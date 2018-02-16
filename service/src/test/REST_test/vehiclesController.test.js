@@ -29,7 +29,7 @@ describe('POST /vehicles', function () {
         const userWithAddedVehicle = await globals.loggedUserResource
             .getResource()
             .getByToken(token);
-        userWithAddedVehicle.body.userDomainInfo.vehicles.pop().should.be.equal(addedVehicleId);
+        userWithAddedVehicle.body.userDomainInfo.vehicles.pop()._id.should.be.equal(addedVehicleId);
     });
 
     it('Should return validation error if request is invalid', async () => {

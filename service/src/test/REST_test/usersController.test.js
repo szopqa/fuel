@@ -11,7 +11,7 @@ beforeEach((done) => {
 });
 
 describe('POST /users Adding new user', () => {
-
+    this.timeout =5000;
     it('Should create a new user', async () => {
         const userPayload = payloads.generateNonExistingUser();
         const postUserRes = await globals.usersResource

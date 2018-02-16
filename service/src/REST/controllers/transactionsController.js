@@ -13,10 +13,14 @@ module.exports = (() => {
         return addCreatedResourceToArrayInUserModel(transaction, 'userDomainInfo.historyOfTransactions');
     };
 
-
-    //TODO : Fix bug with transactionDate - for each transaction date is the same
     const addNewTransaction = async (req, res) => {
-        const transaction = new TransactionModel(Object.assign({owner: req.user._id}, req.body));
+
+        const transacionBody = Object.assign({
+            owner: req.user._id,
+            transactionDate: Date.now()
+        }, req.body);
+
+        const transaction = new TransactionModel(transacionBody);
 
         let savedTransaction;
         try{
