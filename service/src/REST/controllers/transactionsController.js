@@ -14,16 +14,24 @@ module.exports = (() => {
         const userID = req.user._id;
 
         let savedTransaction;
-        let updatedUser;        
         try{
             savedTransaction = await transactionActivities.addTransaction(req);
-            updatedUser = await userActivities.updateUserBasedOnTransactionData(userID, savedTransaction);
         } catch (e) {
             //TODO : Error handling 
             logger.log('error', `Failed to add new transaction ${savedTransaction, updatedUser}`);
             return res.status(400).send(`Failed to add new transaction ${savedTransaction, updatedUser}`);
         };
         
+        let updatedUser;        
+        
+        try {
+            updatedUser = await userActivities.updateUserBasedOnTransactionData(userID, savedTransaction);
+        } catch (e) {
+            //TODO : Error handling 
+            logger.log('error', `Failed to update user data`);
+            return res.status(400).send(`Failed to update ${savedTransaction} for user`);
+        }   
+
         return res.json({
             owner: updatedUser,
             addedTransactionId: savedTransaction._id

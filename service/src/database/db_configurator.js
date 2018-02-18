@@ -4,7 +4,7 @@ const logger = require ('../logger');
 
 module.exports = (() => {
     const connectionString =
-        `mongodb://${db.username}:${db.password}@ds125368.mlab.com:25368/fuel`;
+        `mongodb://${db.username}:${db.password}@ds141068.mlab.com:41068/fuel`;
 
 
     const handleSuccessfulConnection = () => {

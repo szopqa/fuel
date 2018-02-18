@@ -22,5 +22,12 @@ module.exports = {
             path: '/vehicles',
             contentType: 'application/json'
         })
+    },
+    get transactionResource () {
+        return commonsFactory({
+            host: app,
+            path: '/user/transactions',
+            contentType: 'application/json'
+        })
     }
 };

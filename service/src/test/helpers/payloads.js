@@ -14,6 +14,17 @@ const sampleVehiclePayload = (owner) => {
     };
 };
 
+const sampleTransactionPayload = (vehicle) => {
+    return {
+        vehicle,
+        refueledAmount: 58,
+        transactionPrice: 250,
+        pricePerLiter: 4.3,
+        distanceSinceLastRefueling: 560,
+        location: "Knurów, LOTOS"
+    }
+}
+
 const generateNonExistingUser = () => {
     return Object.assign(sampleUserPayload, {
         username: generateRandomStringOfLength(7),
@@ -24,6 +35,7 @@ const generateNonExistingUser = () => {
 
 module.exports = {
     sampleUserPayload,
+    generateNonExistingUser,    
     sampleVehiclePayload,
-    generateNonExistingUser
+    sampleTransactionPayload
 };

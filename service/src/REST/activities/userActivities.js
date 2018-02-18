@@ -23,8 +23,8 @@ module.exports = (() => {
         const {distanceSinceLastRefueling, transactionPrice} = addedTransaction;
         
         let updatedUser;
-        updatedUser = await updateUSerDomainInfo(userID, distanceSinceLastRefueling, transactionPrice);
         updatedUser = await addToTransactionsHistory(addedTransaction);    
+        updatedUser = await updateUSerDomainInfo(userID, distanceSinceLastRefueling, transactionPrice);
         
         return updatedUser;
     };

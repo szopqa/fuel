@@ -25,7 +25,7 @@
     "mocha": "^5.0.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "cd ./src/test/REST_test && mocha *",
     "start": "node ./src/start.js"
   },
   "repository": {
