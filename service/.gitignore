@@ -1,5 +1,5 @@
 node_modules/
-service/src/secrets.js
-service/src/logs/logs.log
+src/secrets.js
+src/logs/logs.log
 .idea/
 sandbox/
