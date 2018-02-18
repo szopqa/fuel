@@ -10,6 +10,8 @@
     "bcryptjs": "^2.4.3",
     "crypto-js": "^3.1.9-1",
     "express": "^4.16.2",
+    "joi": "^13.1.2",
+    "joi-objectid": "^2.0.0",
     "jsonwebtoken": "^8.1.1",
     "lodash": "^4.17.5",
     "mongoose": "^5.0.3",

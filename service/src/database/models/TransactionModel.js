@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 const {usersCollectionName} = require('./UserModel');
 const {vehiclesCollectionName} = require('./VehicleModel');
+const {setAvarageCombustionFromTransaction} = require('../../REST/controllers/utils/utils');
 
 const TransactionModel = new Schema({
     owner: {
@@ -33,8 +34,17 @@ const TransactionModel = new Schema({
         required: [true, 'Transaction\'s price per liter is mandatory!']
     },
     distanceSinceLastRefueling: Number,
-    location: String
+    location: String,
+    averageCombustionFromTransaction: Number
 });
+
+TransactionModel.pre('save', function (next) {
+    if (this.isModified('refueledAmount') && this.isModified('distanceSinceLastRefueling')) {
+        this.averageCombustionFromTransaction 
+            = setAvarageCombustionFromTransaction(this.refueledAmount, this.distanceSinceLastRefueling);
+        next();    
+    } else { next(); }
+ });
 
 const transactionsCollectionName = 'Transactions';
 module.exports = {
