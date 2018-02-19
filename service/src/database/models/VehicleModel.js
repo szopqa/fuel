@@ -16,6 +16,10 @@ const VehicleModel = new Schema({
     },
     avatar: String,
     description: String,
+    plate: {
+        type: String,
+        unique: true
+    },
     averageCombustion: Number
 });
 
