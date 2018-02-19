@@ -2,10 +2,8 @@
 
 const _ = require('lodash');
 
-const {TransactionModel} = require('../../database/models/TransactionModel');
-const {addCreatedResourceToArrayInUserModel} = require('./utils/utils');
-const transactionActivities = require('../activities/transactionActivities');
-const userActivities = require('../activities/userActivities');
+const {updateUserBasedOnTransactionData} = require('../activities/userActivitiesHelper');
+const resources = require('../activities/resources');
 const logger = require('../../logger');
 
 module.exports = (() => {
@@ -15,21 +13,19 @@ module.exports = (() => {
 
         let savedTransaction;
         try{
-            savedTransaction = await transactionActivities.addTransaction(req);
+            savedTransaction = await resources.transactions.addNew(req);
         } catch (e) {
-            //TODO : Error handling 
-            logger.log('error', `Failed to add new transaction ${savedTransaction, updatedUser}`);
-            return res.status(400).send(`Failed to add new transaction ${savedTransaction, updatedUser}`);
+            logger.log('error', `Failed to add new transaction`);
+            return res.status(400).send(`Failed to add new transaction ${e}`);
         };
-        
+
         let updatedUser;        
-        
         try {
-            updatedUser = await userActivities.updateUserBasedOnTransactionData(userID, savedTransaction);
+            updatedUser = await updateUserBasedOnTransactionData(userID, savedTransaction);
         } catch (e) {
-            //TODO : Error handling 
+            //TODO: Delete added transaction if it couldn't be added for user
             logger.log('error', `Failed to update user data`);
-            return res.status(400).send(`Failed to update ${savedTransaction} for user`);
+            return res.status(400).send(`Failed to update user data`);
         }   
 
         return res.json({
@@ -39,9 +35,10 @@ module.exports = (() => {
     };
 
     const getUserTransactions = async (req, res) => {
-        const userTransactions = await TransactionModel.find({
-            owner: req.user._id
-        }); 
+        const userTransactions = await resources
+                .transactions
+                .getAllForUser(req.user._id);
+        
         if(! userTransactions) {return res.status(400).send()}
 
         return res.send({

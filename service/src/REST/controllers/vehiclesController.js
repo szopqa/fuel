@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 
+const resources = require('../activities/resources')
 const {addCreatedResourceToArrayInUserModel} = require('./utils/utils');
 const {VehicleModel} = require('../../database/models/VehicleModel');
 const {UserModel} = require('../../database/models/UserModel');
@@ -14,14 +15,11 @@ module.exports = (() => {
     };
 
 
-
     const addNewVehicle = async (req, res) => {
-
-        const vehicle = new VehicleModel(Object.assign({owner: req.user._id}, req.body));
 
         let savedVehicle;
         try{
-            savedVehicle = await vehicle.save();
+            savedVehicle = await resources.vehicles.addNew(req);
         } catch (e) {
             logger.log('error', 'Failed to save vehicle to database', {e});
             return res.status(400).send(e);
@@ -37,9 +35,10 @@ module.exports = (() => {
     };
 
     const getUserVehicles = async (req, res) => {
-        const userVehicles = await VehicleModel.find({
-            owner: req.user._id
-        });
+        const userVehicles = await resources
+                .vehicles
+                .getAllForUser(req.user._id);
+                
         if(!userVehicles) { return res.status(400).send() }
 
         return res.send({
