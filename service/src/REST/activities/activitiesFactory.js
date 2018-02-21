@@ -11,7 +11,7 @@ module.exports = ({MongooseModel, JoiSchema, getResourceBody}) => {
         if(bodyValidation.error !== null) {
             throw new Error(schemaValidation.error)
         }
-        
+
         const dbModel = MongooseModel();
         return await new dbModel(body).save();
     }

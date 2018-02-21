@@ -28,5 +28,9 @@ module.exports = {
         updatedUser = await updateUserDomainInfo(userID, distanceSinceLastRefueling, transactionPrice);
         
         return updatedUser;
+    },
+    setAuthTokenForUser: async (user) => {
+        return await user.generateAuthToken();
     }
+    
 };

@@ -2,31 +2,25 @@
 const _ = require('lodash');
 
 const {UserModel} = require('../../database/models/UserModel');
+const resources = require('../activities/resources')
+const {setAuthTokenForUser} = require('../activities/userActivitiesHelper')
 const logger = require('../../logger');
 
 module.exports = (() => {
 
-    const addNewUser = (req, res) => {
-        const userBody = req.body;
-
-        const user = new UserModel({
-            username: userBody.username,
-            password: userBody.password,
-            emailAddress: userBody.emailAddress,
-            avatar: userBody.avatar,
-        });
-
-        user.save()
-            .then(() => {
-                return user.generateAuthToken();
-            })
-            .then((token) => {
-                res.header('x-auth', token).send(user);
-            })
-            .catch((e) => {
-                logger.log('error',e);
-                res.status(400).send(e);
-            });
+    const addNewUser = async (req, res) => {
+        
+        let savedUser;
+        let authToken; 
+        try{
+            savedUser = await resources.users.addNew(req);
+            authToken = await setAuthTokenForUser(savedUser);
+        } catch (e) {
+            logger.log('error', 'Failed to save user',e);
+            return res.status(400).send(e);
+        }
+        
+        res.header('x-auth', authToken).send(savedUser);
     };
 
     // TODO : Return not found when user doesn't exist

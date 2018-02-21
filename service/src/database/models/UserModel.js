@@ -21,7 +21,7 @@ const UserModel = new Schema({
     password: {
         type: String,
         required: [true, 'Password is required!'],
-        minlength:6
+            minlength:6
     },
     emailAddress: {
         type: String,

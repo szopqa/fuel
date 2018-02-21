@@ -28,6 +28,14 @@ const vehicleJoiSchema = {
     averageCombustion: joi.number().min(0)
 };
 
+const userJoiSchema = {
+    username: joi.string().required(),
+    password: joi.string().required(),
+    emailAddress: joi.string().required(),
+    avatar: joi.string(),
+    entryDate: joi.date(),
+};
+
 module.exports = {
     get transactions () {
         return activitiesFactory({
@@ -52,9 +60,13 @@ module.exports = {
             }
         })
     },
-    // get user () {
-    //     return activitiesFactory({
-    //         MongooseModel: UserModel,
-    //     })
-    // }
+    get users () {
+        return activitiesFactory({
+            MongooseModel: () => UserModel,
+            JoiSchema: userJoiSchema,
+            getResourceBody: (payload) => {
+                return payload.body;
+            }
+        })
+    }
 };
