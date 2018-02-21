@@ -3,13 +3,14 @@ const usersController = require('./controllers/usersController');
 const vehiclesController = require('./controllers/vehiclesController');
 const transactionsController = require('./controllers/transactionsController');
 const authenticate = require('../middleware/authentication');
+const noCache = require('../middleware/noCache');
 
 module.exports = (app) => {
     app.post('/users', usersController.addNewUser);
     app.post('/users/login', usersController.loginUser);
     app.delete('/users/logout', authenticate, usersController.logoutUser);
 
-    app.get('/users/me', authenticate, usersController.getLoggedUser);
+    app.get('/users/me', authenticate, noCache, usersController.getLoggedUser);
     app.get('/users/:id', authenticate, usersController.getUserById);
     app.delete('/users/:id', authenticate, usersController.deleteUser);
 
