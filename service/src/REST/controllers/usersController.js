@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 const {UserModel} = require('../../database/models/UserModel');
 const resources = require('../activities/resources')
-const {setAuthTokenForUser} = require('../activities/userActivitiesHelper')
+const utils = require('../controllers/utils/utils');
 const logger = require('../../logger');
 
 module.exports = (() => {
@@ -14,7 +14,7 @@ module.exports = (() => {
         let authToken; 
         try{
             savedUser = await resources.users.addNew(req);
-            authToken = await setAuthTokenForUser(savedUser);
+            authToken = await utils.setAuthTokenForUser(savedUser);
         } catch (e) {
             logger.log('error', 'Failed to save user',e);
             return res.status(400).send(e);
