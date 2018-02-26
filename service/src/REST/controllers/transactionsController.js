@@ -2,7 +2,10 @@
 
 const _ = require('lodash');
 
-const {updateUserBasedOnTransactionData} = require('../activities/userActivitiesHelper');
+const {
+    updateUserBasedOnTransactionData,
+    updateVehicleBasedOnTransactionData
+} = require('../activities/activitiesHelpers');
 const resources = require('../activities/resources');
 const logger = require('../../logger');
 
@@ -27,6 +30,8 @@ module.exports = (() => {
             logger.log('error', `Failed to update user data`);
             return res.status(400).send(`Failed to update user data`);
         }   
+
+        await updateVehicleBasedOnTransactionData(savedTransaction.vehicle, savedTransaction);
 
         return res.json({
             owner: updatedUser,

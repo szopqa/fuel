@@ -17,12 +17,17 @@ module.exports = (() => {
             {new: true});
     };
 
+    const setAuthTokenForUser = async (user) => {
+        return await user.generateAuthToken();
+    };
+
     const setAvarageCombustionFromTransaction = (fuelConsumed, distance) => {
         return (100 * fuelConsumed) / distance;
     };
 
     return {
         addCreatedResourceToArrayInUserModel,
+        setAuthTokenForUser,
         setAvarageCombustionFromTransaction
     }
 })();

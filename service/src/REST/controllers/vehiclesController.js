@@ -39,12 +39,24 @@ module.exports = (() => {
                 .vehicles
                 .getAllForUser(req.user._id);
                 
-        if(!userVehicles) { return res.status(400).send() }
+        if(! userVehicles) { return res.status(400).send() }
 
         return res.send({
             amount: userVehicles.length,
             userVehicles
         })
+    };
+
+    const getSingleVehicle = async (req, res) => {
+        const userVehicle = await resources
+                .vehicles
+                .getById(req.params.id);
+
+        if(! userVehicle) { return res.status(404).send() }
+
+        return res.send({
+            userVehicle
+        })        
     };
 
     const deleteVehicle = (req, res) => {
@@ -54,6 +66,7 @@ module.exports = (() => {
     return {
         addNewVehicle,
         getUserVehicles,
+        getSingleVehicle,
         deleteVehicle
     }
 })();

@@ -20,7 +20,18 @@ const VehicleModel = new Schema({
         type: String,
         unique: true
     },
-    averageCombustion: Number
+    averageCombustion: {
+        type: Number,
+        default: 0
+    },
+    distanceTravelled: {
+        type: Number,
+        default: 0
+    },
+    currentTransactionsNum: {
+        type: Number,
+        default: 0
+    }
 });
 
 const vehiclesCollectionName = 'Vehicles';
