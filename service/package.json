@@ -26,7 +26,7 @@
   },
   "scripts": {
     "test": "cd ./src/test/REST_test && mocha *",
-    "start": "node ./src/start.js"
+    "start": "nodemon ./src/start.js"
   },
   "repository": {
     "type": "git",

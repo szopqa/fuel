@@ -1,0 +1,18 @@
+version: '2'
+services:
+  fuel_service:
+    container_name: fuel_service
+    build: ./service
+    volumes:
+      - ./service/logs:/usr/src/app/logs
+      - ./service:/usr/src/app
+    ports:
+      - "3000:3000"
+    links:
+      - "mongoDB"
+  
+  mongoDB:
+    container_name: mongo_database
+    image: mongo
+    ports:
+      - "27017:27017"

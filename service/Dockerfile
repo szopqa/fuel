@@ -1,14 +1,15 @@
 FROM node:carbon
 
-RUN mkdir -p usr/src/app
+RUN mkdir -p /usr/src/app
 
-WORKDIR usr/src/app
+WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY . /usr/src/app
 
 RUN npm install
 
-COPY . .
+RUN npm i -g nodemon
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+
+CMD ["npm", "start"]
