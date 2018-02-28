@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(require('./middleware/requestsLogger'));
 
 
-require('./database/db_configurator') (dbConfig);
+require('./database/db_configurator')(dbConfig).connect();
 require('./REST/router') (app);
 
 
