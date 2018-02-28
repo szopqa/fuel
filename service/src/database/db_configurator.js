@@ -2,23 +2,20 @@
 
 const mongoose = require('mongoose');
 
-const {db} = require ('../secrets');
 const logger = require ('../logger');
 
 module.exports = (() => {
-    // const connectionString =
-    //     `mongodb://${db.username}:${db.password}@ds141068.mlab.com:41068/fuel`;
-    const connectionString = 'mongodb://mongo_database:27017/fuel'
 
     const handleSuccessfulConnection = () => {
-        logger.info(`Connected to ${db.databaseName} database`);
+        logger.info(`Connected to database`);
     };
-
+    
     const handleConnectionError = (err) => {
         logger.log('error',{err});
     };
-
-    return ({host, port, dbName}) => {
+    
+    return ({host, port, dbName}) => {        
+        const connectionString = `mongodb://${host}:${port}/${dbName}`
         mongoose.Promise = global.Promise;
 
         mongoose.connect(connectionString);
