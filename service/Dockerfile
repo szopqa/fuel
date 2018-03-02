@@ -4,7 +4,9 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-COPY . /usr/src/app
+ADD ./package.json /usr/src/app/package.json
+
+ADD . /usr/src/app
 
 RUN npm install
 
