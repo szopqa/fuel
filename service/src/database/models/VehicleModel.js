@@ -16,6 +16,10 @@ const VehicleModel = new Schema({
     },
     avatar: String,
     description: String,
+    fuelType: {
+        type: String,
+        required: [true, 'Fuel type is required!'],
+    },
     plate: {
         type: String,
         unique: true

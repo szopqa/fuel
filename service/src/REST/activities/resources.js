@@ -19,10 +19,12 @@ const transactionJoiSchema = {
     location: joi.string()
 };
 
+const availableFuelTypes = ['PETROL', 'DIESEL', 'LPG'];
 const vehicleJoiSchema = {
     owner: joi.objectId().required(),
     brand: joi.string().required(),
     plate: joi.string().required(),
+    fuelType: joi.string().required().valid(availableFuelTypes),
     avatar: joi.string(),
     description: joi.string(),
     averageCombustion: joi.number().min(0)
@@ -32,6 +34,8 @@ const userJoiSchema = {
     username: joi.string().required(),
     password: joi.string().required(),
     emailAddress: joi.string().required(),
+    name: joi.string(),
+    surname: joi.string(),
     avatar: joi.string(),
     entryDate: joi.date(),
 };

@@ -32,6 +32,8 @@ const UserModel = new Schema({
             message: '{VALUE} is not valid email address'
         },
     },
+    name: String,
+    surname: String,
     avatar: String,
     entryDate: {
         type: Date,
@@ -50,11 +52,11 @@ const UserModel = new Schema({
             type: Schema.Types.ObjectId,
             ref: transactionsCollectionName
         }],
-        distanceTravelled: {
+        totalDistanceTravelled: {
             type: Number,
             default: 0
         },
-        moneySpentOnFuel: {
+        totalMoneySpentOnFuel: {
             type: Number,
             default: 0
         }

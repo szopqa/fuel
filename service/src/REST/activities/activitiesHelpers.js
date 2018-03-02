@@ -15,8 +15,8 @@ const updateUserDomainFields = async (userID, distance,transactionPrice) => {
     return await UserModel
         .findByIdAndUpdate(userID, {
             $inc: {
-                'userDomainInfo.distanceTravelled': distance,
-                'userDomainInfo.moneySpentOnFuel': transactionPrice
+                'userDomainInfo.totalDistanceTravelled': distance,
+                'userDomainInfo.totalMoneySpentOnFuel': transactionPrice
             }
         },{new: true});
 }

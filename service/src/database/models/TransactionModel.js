@@ -7,6 +7,10 @@ const {usersCollectionName} = require('./UserModel');
 const {vehiclesCollectionName} = require('./VehicleModel');
 const {setAvarageCombustionFromTransaction} = require('../../REST/controllers/utils/utils');
 
+/**
+ * By now Transaction has only 'location' field. In future it will be 
+ * transformed to separate object containing all organization's info
+ */
 const TransactionModel = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
