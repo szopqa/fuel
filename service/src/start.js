@@ -5,8 +5,7 @@ const bodyParser = require('body-parser');
 const _ = require('lodash');
 
 const logger = require('./logger');
-const {port} = require('./config');
-const dbConfig = require('./database/dbConfig');
+const {port, db: dbConfig} = require('./config');
 
 
 const app = express();
