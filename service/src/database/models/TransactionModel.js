@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const {usersCollectionName} = require('./UserModel');
 const {vehiclesCollectionName} = require('./VehicleModel');
 const {setAvarageCombustionFromTransaction} = require('../../REST/controllers/utils/utils');
-
+const transactionModelHelpers = require('./orm_helpers/transactionModelHelpers');
 /**
  * By now Transaction has only 'location' field. In future it will be 
  * transformed to separate object containing all organization's info
@@ -42,13 +42,7 @@ const TransactionModel = new Schema({
     averageCombustionFromTransaction: Number
 });
 
-TransactionModel.pre('save', function (next) {
-    if (this.isModified('refueledAmount') && this.isModified('distanceSinceLastRefueling')) {
-        this.averageCombustionFromTransaction 
-            = setAvarageCombustionFromTransaction(this.refueledAmount, this.distanceSinceLastRefueling);
-        next();    
-    } else { next(); }
- });
+transactionModelHelpers.initORMHelpers(TransactionModel);
 
 const transactionsCollectionName = 'Transactions';
 module.exports = {
