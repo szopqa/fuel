@@ -12,10 +12,10 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(require('./middleware/requestsLogger'));
-
+app.use(require('./middleware/errorHandler'));
 
 require('./database/db_configurator')(dbConfig).connect();
-require('./REST/router') (app);
+require('./REST/router')(app);
 
 
 app.listen(port, function () {
